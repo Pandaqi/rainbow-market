@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cypj372ep67te"]
+
+[ext_resource type="Script" uid="uid://ckvae2m2mgije" path="res://map/colors/visual_color.gd" id="1_n6mjl"]
+[ext_resource type="Texture2D" uid="uid://b67wp5x2jalro" path="res://map/colors/color-crate.png" id="2_i8823"]
+[ext_resource type="Texture2D" uid="uid://cgeg2yfa4gx0i" path="res://map/colors/color-crate-overlay.png" id="3_jfrgc"]
+[ext_resource type="Texture2D" uid="uid://b3jeykyqf7ixh" path="res://map/colors/color-crate-locked.png" id="4_jfrgc"]
+
+[node name="VisualColor" type="Node2D" unique_id=371547014 node_paths=PackedStringArray("color_sprite", "lock_sprite")]
+script = ExtResource("1_n6mjl")
+color_sprite = NodePath("Color")
+lock_sprite = NodePath("Lock")
+
+[node name="Crate" type="Sprite2D" parent="." unique_id=823879371]
+texture = ExtResource("2_i8823")
+
+[node name="Color" type="Sprite2D" parent="." unique_id=1002585151]
+texture = ExtResource("3_jfrgc")
+
+[node name="Lock" type="Sprite2D" parent="." unique_id=1338019427]
+texture = ExtResource("4_jfrgc")

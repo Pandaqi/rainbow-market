@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://bwdpa3wifrm3v"]
+
+[ext_resource type="Script" uid="uid://dkxf24oa22oqp" path="res://map/clients/visual_client.gd" id="1_sxguy"]
+[ext_resource type="Texture2D" uid="uid://d1p4b8jk7s6xf" path="res://map/clients/drop-shadow.png" id="2_8it7i"]
+[ext_resource type="PackedScene" uid="uid://cypj372ep67te" path="res://map/colors/visual_color.tscn" id="2_kvu62"]
+[ext_resource type="Texture2D" uid="uid://dxfdx6b5fq0pv" path="res://map/clients/animals/pig.png" id="2_u1o30"]
+[ext_resource type="Script" uid="uid://oubjhs02bydx" path="res://ui/color-list/color_list.gd" id="4_8it7i"]
+[ext_resource type="Texture2D" uid="uid://b1vye2rccuyoc" path="res://map/clients/order-bubble.png" id="4_sxguy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sxguy"]
+size = Vector2(128, 128)
+
+[sub_resource type="Animation" id="Animation_8it7i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Client:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Client:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7knqc"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Client:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(0.475, 0.525), Vector2(0.525, 0.475)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Client:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.40106815, 1.1993608),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xlx80"]
+_data = {
+&"RESET": SubResource("Animation_8it7i"),
+&"idle": SubResource("Animation_7knqc")
+}
+
+[node name="VisualClient" type="Node2D" unique_id=821509865 node_paths=PackedStringArray("reward", "client_sprite", "order", "click_area", "anim_player")]
+script = ExtResource("1_sxguy")
+reward = NodePath("Reward")
+client_sprite = NodePath("Client")
+order = NodePath("Order")
+click_area = NodePath("ClickArea")
+anim_player = NodePath("AnimationPlayer")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=236130134]
+modulate = Color(0.047058824, 0.047058824, 0.047058824, 0.27058825)
+position = Vector2(0, 28)
+scale = Vector2(0.8, 0.225)
+texture = ExtResource("2_8it7i")
+
+[node name="Client" type="Sprite2D" parent="." unique_id=1517628269]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_u1o30")
+
+[node name="Order" type="Node2D" parent="." unique_id=1599669464]
+position = Vector2(0, -60)
+script = ExtResource("4_8it7i")
+color_visual = ExtResource("2_kvu62")
+sort = true
+
+[node name="Order" type="Sprite2D" parent="Order" unique_id=1021291572]
+position = Vector2(0, 9)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("4_sxguy")
+
+[node name="Reward" type="Node2D" parent="." unique_id=1461396680]
+position = Vector2(0, 27)
+script = ExtResource("4_8it7i")
+color_visual = ExtResource("2_kvu62")
+lock = true
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=888798250]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=721170376]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_sxguy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1576340219]
+libraries/ = SubResource("AnimationLibrary_xlx80")
+autoplay = &"idle"
