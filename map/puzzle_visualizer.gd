@@ -9,12 +9,16 @@ class_name PuzzleVisualizer
 @export var clients_container : Node2D
 
 var clients : Array[VisualClient]
+var clients_all : Array[VisualClient]
+var generator : PuzzleGenerator
 var busy := false
 
 signal puzzle_failed()
 signal all_clients_removed()
 
 func visualize(gen:PuzzleGenerator) -> void:
+	generator = gen
+	
 	# create row of colors
 	for c in gen.colors_start:
 		var cv : VisualColor = color_visual.instantiate()
@@ -37,7 +41,7 @@ func visualize(gen:PuzzleGenerator) -> void:
 	animal_types.shuffle()
 	
 	# place clients on screen
-	clients = []
+	clients_all = []
 	for c in gen.clients:
 		var cv : VisualClient = client_visual.instantiate()
 		cv.set_from_data(c)
@@ -49,10 +53,22 @@ func visualize(gen:PuzzleGenerator) -> void:
 		cv.set_position(rand_pos)
 		cv.clicked.connect(_on_client_clicked)
 		
-		clients.append(cv)
+		clients_all.append(cv)
 		clients_container.add_child(cv)
 	
+	clients = clients_all.duplicate(false)
+	
 	switch_to_next_color(false)
+
+func _input(ev:InputEvent) -> void:
+	if not OS.is_debug_build(): return
+	if not ev.is_action_released("ui_accept"): return
+	play_solution()
+
+func play_solution() -> void:
+	var solution := generator.solution
+	for client_idx in solution:
+		await _on_client_clicked(clients_all[client_idx])
 
 func _on_client_clicked(c:VisualClient) -> void:
 	if busy:
