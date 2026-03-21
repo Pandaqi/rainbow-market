@@ -9,11 +9,12 @@ enum ColorName
 	ORANGE,
 	PURPLE,
 	PINK,
+	CYAN,
 	WHITE,
 	BLACK
 }
 
-var names_to_colors : Dictionary[ColorName, Color] = {
+static var names_to_colors : Dictionary[ColorName, Color] = {
 	ColorName.RED: Color.RED,
 	ColorName.BLUE: Color.BLUE,
 	ColorName.GREEN: Color.GREEN,
@@ -21,8 +22,9 @@ var names_to_colors : Dictionary[ColorName, Color] = {
 	ColorName.ORANGE: Color.ORANGE,
 	ColorName.PURPLE: Color.PURPLE,
 	ColorName.PINK: Color.PINK,
+	ColorName.CYAN: Color.CYAN,
 	ColorName.WHITE: Color.WHITE,
-	ColorName.BLACK: Color.BLACK,
+	ColorName.BLACK: Color(0.25, 0.25, 0.25),
 }
 
 var name : ColorName
@@ -36,6 +38,13 @@ func get_color() -> Color:
 func get_name() -> ColorName:
 	return name
 
+static func get_all_colors() -> Array[ColorName]:
+	var arr : Array[ColorName] = []
+	arr.assign(ColorName.values())
+	return arr
+
 static func get_random() -> ColorName:
-	var all_options := ColorName.values()
-	return all_options.pick_random()
+	return get_all_colors().pick_random()
+
+static func get_color_as_object(c:ColorName) -> Color:
+	return names_to_colors[c]

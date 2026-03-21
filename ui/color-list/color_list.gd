@@ -12,6 +12,11 @@ var colors : Array[VisualColor]
 func get_elements() -> Array[VisualColor]:
 	return colors
 
+func has_color(c:VisualColor) -> bool:
+	for color in colors:
+		if color.matches(c): return true
+	return false
+
 func add_color_raw(c:PuzzleColor) -> void:
 	var cv : VisualColor = color_visual.instantiate()
 	cv.set_from_data(c)

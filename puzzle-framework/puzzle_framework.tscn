@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bqhtxrn1r54m3"]
+
+[ext_resource type="Script" uid="uid://kme3xvun4gc4" path="res://puzzle-framework/puzzle_framework.gd" id="1_57jsw"]
+[ext_resource type="Resource" uid="uid://c67t40c4g58u2" path="res://generation/difficulties/diff_easiest.tres" id="2_swsbt"]
+[ext_resource type="PackedScene" uid="uid://bqutjhog68134" path="res://map/background/background.tscn" id="2_xffpj"]
+[ext_resource type="Resource" uid="uid://gjv4afema8pp" path="res://generation/difficulties/diff_easy.tres" id="3_xffpj"]
+[ext_resource type="Resource" uid="uid://dcbvyio75bvld" path="res://generation/difficulties/diff_medium.tres" id="4_tgv6f"]
+[ext_resource type="Resource" uid="uid://71p54v0f6ftg" path="res://generation/difficulties/diff_hard.tres" id="5_qky6c"]
+[ext_resource type="Resource" uid="uid://dt1v120fl512p" path="res://generation/difficulties/diff_hardest.tres" id="6_dny6r"]
+
+[node name="PuzzleFramework" type="Node" unique_id=835186744]
+script = ExtResource("1_57jsw")
+game_name = "Rainbow Market"
+game_version = "1.24"
+game_tagline = "Teaches Colors"
+menu_scene_custom = ExtResource("2_xffpj")
+difficulties = Dictionary[int, Object]({
+0: ExtResource("2_swsbt"),
+1: ExtResource("3_xffpj"),
+2: ExtResource("4_tgv6f"),
+3: ExtResource("5_qky6c"),
+4: ExtResource("6_dny6r")
+})

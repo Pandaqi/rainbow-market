@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dhf13gix5hqyx"]
+
+[ext_resource type="Texture2D" uid="uid://dstf78tybkvev" path="res://map/background/terrain-bush.png" id="1_8wmdn"]
+[ext_resource type="Script" uid="uid://wbohpntgtrvl" path="res://map/background/terrain_sprite.gd" id="1_ru1uv"]
+[ext_resource type="Texture2D" uid="uid://c0cdfis5xk1vs" path="res://map/background/terrain-cactus.png" id="3_06nnl"]
+
+[node name="TerrainSprite" type="Node2D" unique_id=1660508892 node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_ru1uv")
+terrain_sprites = Array[Texture2D]([ExtResource("1_8wmdn"), ExtResource("3_06nnl")])
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1596988892]
+position = Vector2(0, -64)
+texture = ExtResource("1_8wmdn")

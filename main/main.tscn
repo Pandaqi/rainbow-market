@@ -1,30 +1,46 @@
 [gd_scene format=3 uid="uid://b14eo1iq47tu3"]
 
 [ext_resource type="Script" uid="uid://bnvtxlhy2o3dx" path="res://main/main.gd" id="1_53q0u"]
+[ext_resource type="Script" uid="uid://haho73xq30yv" path="res://puzzle-framework/tools/camera.gd" id="2_grrlh"]
 [ext_resource type="PackedScene" uid="uid://cypj372ep67te" path="res://map/colors/visual_color.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://bwdpa3wifrm3v" path="res://map/clients/visual_client.tscn" id="3_3wy1v"]
 [ext_resource type="Script" uid="uid://oubjhs02bydx" path="res://ui/color-list/color_list.gd" id="5_3wy1v"]
-[ext_resource type="Script" uid="uid://vlso22u00am3" path="res://map/background/background.gd" id="5_4dugh"]
 [ext_resource type="Script" uid="uid://brtb0fn7fyjum" path="res://map/puzzle_visualizer.gd" id="5_kfbq2"]
+[ext_resource type="PackedScene" uid="uid://bqutjhog68134" path="res://map/background/background.tscn" id="6_grrlh"]
+[ext_resource type="PackedScene" uid="uid://q1jom8bphw8d" path="res://puzzle-framework/gameover/game_over_dialog.tscn" id="8_67ri8"]
+[ext_resource type="PackedScene" uid="uid://2xygcypttdo7" path="res://puzzle-framework/game/game_menu.tscn" id="11_fwcvl"]
 
-[node name="Main" type="Node2D" unique_id=29911158 node_paths=PackedStringArray("vis")]
+[node name="Main" type="Node2D" unique_id=29911158 node_paths=PackedStringArray("vis", "gameover", "game_menu")]
 script = ExtResource("1_53q0u")
 vis = NodePath("PuzzleVisualizer")
+gameover = NodePath("GameOverDialog")
+game_menu = NodePath("GameMenu")
 
-[node name="PuzzleVisualizer" type="Node2D" parent="." unique_id=1799516191 node_paths=PackedStringArray("background", "color_list", "clients_container")]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1408578967]
+script = ExtResource("2_grrlh")
+
+[node name="PuzzleVisualizer" type="Node2D" parent="." unique_id=1799516191 node_paths=PackedStringArray("camera", "background", "color_list", "clients_container")]
 script = ExtResource("5_kfbq2")
 color_visual = ExtResource("2_pjrb6")
 client_visual = ExtResource("3_3wy1v")
+camera = NodePath("../Camera2D")
 background = NodePath("Background")
-color_list = NodePath("ColorList")
+color_list = NodePath("../ColorList/ColorList")
 clients_container = NodePath("Clients")
 
-[node name="Background" type="Node2D" parent="PuzzleVisualizer" unique_id=1069676089]
-script = ExtResource("5_4dugh")
+[node name="Background" parent="PuzzleVisualizer" unique_id=1499580916 instance=ExtResource("6_grrlh")]
 
 [node name="Clients" type="Node2D" parent="PuzzleVisualizer" unique_id=1897178191]
 
-[node name="ColorList" type="Node2D" parent="PuzzleVisualizer" unique_id=250535471]
+[node name="ColorList" type="CanvasLayer" parent="." unique_id=1143333746]
+layer = 2
+
+[node name="ColorList" type="Node2D" parent="ColorList" unique_id=250535471]
 position = Vector2(530, 39)
 script = ExtResource("5_3wy1v")
 color_visual = ExtResource("2_pjrb6")
+
+[node name="GameMenu" parent="." unique_id=950523672 instance=ExtResource("11_fwcvl")]
+
+[node name="GameOverDialog" parent="." unique_id=1270097331 instance=ExtResource("8_67ri8")]
+layer = 4

@@ -4,6 +4,7 @@ class_name PuzzleVisualizer
 @export var color_visual : PackedScene
 @export var client_visual : PackedScene
 
+@export var camera : PuzzleCamera
 @export var background : Background
 @export var color_list : ColorList
 @export var clients_container : Node2D
@@ -13,8 +14,16 @@ var clients_all : Array[VisualClient]
 var generator : PuzzleGenerator
 var busy := false
 
-signal puzzle_failed()
-signal all_clients_removed()
+static var viewport_size := Vector2i(1280, 720)
+
+func _ready() -> void:
+	get_viewport().size_changed.connect(_on_size_changed)
+	_on_size_changed()
+	camera.set_target(Rect2(Vector2.ZERO, viewport_size))
+
+func _on_size_changed() -> void:
+	var vp := get_viewport_rect().size
+	color_list.position.x = 0.5*vp.x
 
 func visualize(gen:PuzzleGenerator) -> void:
 	generator = gen
@@ -25,11 +34,9 @@ func visualize(gen:PuzzleGenerator) -> void:
 		cv.set_from_data(c)
 		color_list.add_color(cv)
 	
-	
 	# we prepare a quick grid so we can pigeonhole clients into unique slots
 	# ensuring they don't overlap
 	var client_size := 128.0
-	var viewport_size := Vector2i(1080, 720)
 	var grid_size := Vector2i((viewport_size / client_size).floor())
 	var all_indices := []
 	for x in range(grid_size.x):
@@ -60,6 +67,10 @@ func visualize(gen:PuzzleGenerator) -> void:
 	
 	switch_to_next_color(false)
 
+static func get_random_position_on_screen(rect_compensation := Vector2.ZERO) -> Vector2:
+	var rect := Vector2(viewport_size) - rect_compensation
+	return Vector2(randf(), randf()) * rect
+
 func _input(ev:InputEvent) -> void:
 	if not OS.is_debug_build(): return
 	if not ev.is_action_released("ui_accept"): return
@@ -81,6 +92,7 @@ func _on_client_clicked(c:VisualClient) -> void:
 		return
 	
 	if not c.has_color_in_order(current_color):
+		c.on_order_mismatch()
 		print("NOPE | Client doesn't want this color | ", current_color.data.get_name())
 		return
 	
@@ -95,26 +107,35 @@ func _on_client_clicked(c:VisualClient) -> void:
 	busy = false
 	
 	if clients.size() <= 0:
-		all_clients_removed.emit()
+		PuzzleFramework.finish_puzzle(true)
 		return
 	
 	if color_list.is_empty():
-		puzzle_failed.emit()
+		PuzzleFramework.finish_puzzle(false)
 		return
 	
-	# @TODO: a check if ANY animal accepts our current color => if not, emit puzzle_failed
+	current_color = color_list.get_first()
+	var animals_wanting_color := clients.filter(func(client:VisualClient): return client.order.has_color(current_color))
+	var no_animals_want_color := animals_wanting_color.size() <= 0
 	
+	if no_animals_want_color:
+		PuzzleFramework.finish_puzzle(false)
+		return
 
 func switch_to_next_color(remove_old := true) -> void:
 	if remove_old: 
 		var node := color_list.remove_first()
 		node.queue_free()
 	
+	if color_list.is_empty(): return
+	
 	var new_first := color_list.get_first()
-	if not new_first: return
 	background.set_color(new_first)
 	new_first.play_popup_tween()
 
 func remove_client(c:VisualClient) -> void:
 	clients.erase(c)
 	await c.on_removed(color_list)
+
+func on_game_over() -> void:
+	background.destroy()

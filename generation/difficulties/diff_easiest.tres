@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PuzzleDifficulty" format=3 uid="uid://c67t40c4g58u2"]
+
+[ext_resource type="Script" uid="uid://7a03fervi8xj" path="res://puzzle-framework/puzzle_difficulty.gd" id="1_13r8w"]
+
+[resource]
+script = ExtResource("1_13r8w")
+properties = Dictionary[String, Variant]({
+"max_order_size_bounds": Vector2i(1, 1),
+"num_client_bounds": Vector2i(3, 6),
+"num_colors_bounds": Vector2i(2, 3),
+"num_colors_solution_bounds": Vector2i(2, 7),
+"reward_bounds": Vector2i(0, 0)
+})
+metadata/_custom_type_script = "uid://7a03fervi8xj"

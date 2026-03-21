@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dxfdx6b5fq0pv" path="res://map/clients/animals/pig.png" id="2_u1o30"]
 [ext_resource type="Script" uid="uid://oubjhs02bydx" path="res://ui/color-list/color_list.gd" id="4_8it7i"]
 [ext_resource type="Texture2D" uid="uid://b1vye2rccuyoc" path="res://map/clients/order-bubble.png" id="4_sxguy"]
+[ext_resource type="AudioStream" uid="uid://d3v8u25xskc3a" path="res://puzzle-framework/game/sfx/error.ogg" id="7_8it7i"]
+[ext_resource type="AudioStream" uid="uid://c22atrntt5mds" path="res://puzzle-framework/game/sfx/positive_1.ogg" id="8_7knqc"]
+[ext_resource type="AudioStream" uid="uid://cch0wwwcrfh4u" path="res://puzzle-framework/game/sfx/lock-unlock.ogg" id="9_xlx80"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sxguy"]
 size = Vector2(128, 128)
@@ -72,13 +75,16 @@ _data = {
 &"idle": SubResource("Animation_7knqc")
 }
 
-[node name="VisualClient" type="Node2D" unique_id=821509865 node_paths=PackedStringArray("reward", "client_sprite", "order", "click_area", "anim_player")]
+[node name="VisualClient" type="Node2D" unique_id=821509865 node_paths=PackedStringArray("reward", "client_sprite", "order", "click_area", "anim_player", "audio_error", "audio_positive", "audio_unlock")]
 script = ExtResource("1_sxguy")
 reward = NodePath("Reward")
 client_sprite = NodePath("Client")
 order = NodePath("Order")
 click_area = NodePath("ClickArea")
 anim_player = NodePath("AnimationPlayer")
+audio_error = NodePath("AudioError")
+audio_positive = NodePath("AudioPositive")
+audio_unlock = NodePath("AudioUnlock")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=236130134]
 modulate = Color(0.047058824, 0.047058824, 0.047058824, 0.27058825)
@@ -116,3 +122,12 @@ shape = SubResource("RectangleShape2D_sxguy")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1576340219]
 libraries/ = SubResource("AnimationLibrary_xlx80")
 autoplay = &"idle"
+
+[node name="AudioError" type="AudioStreamPlayer2D" parent="." unique_id=299027877]
+stream = ExtResource("7_8it7i")
+
+[node name="AudioPositive" type="AudioStreamPlayer2D" parent="." unique_id=393562790]
+stream = ExtResource("8_7knqc")
+
+[node name="AudioUnlock" type="AudioStreamPlayer2D" parent="." unique_id=1005463901]
+stream = ExtResource("9_xlx80")

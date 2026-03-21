@@ -1,16 +1,21 @@
 class_name PuzzleGenerator
 
-var starting_colors_bounds := Vector2i(4,8)
-var starting_clients_bounds := Vector2i(2,4)
-var client_done_probability := 0.45
-var new_client_probability := 0.1
+# these properties are modified by the difficulty level you chose
+var num_colors_bounds := Vector2i(4,7)
 var num_client_bounds := Vector2i(10, 20)
-var max_order_size := 3
 var num_colors_solution_bounds := Vector2i(6, 50)
 var reward_bounds := Vector2i(0,2)
+var max_order_size_bounds := Vector2i(3,3)
+
+# these properties are always the same
+var client_done_probability := 0.45
+var new_client_probability := 0.1
+var starting_colors_bounds := Vector2i(4,8)
+var starting_clients_bounds := Vector2i(2,4)
 
 var colors : Array[PuzzleColor]
 var colors_start : Array[PuzzleColor]
+var colors_possible : Array[PuzzleColor.ColorName]
 var current_color_index := -1
 var clients : Array[PuzzleClient]
 
@@ -19,20 +24,31 @@ var solution : Array[int]
 
 func generate() -> void:
 	var max_tries := 500
-	for i in range(max_tries):
-		print("Generator | Attempt " + str(i))
+	PuzzleFramework.apply_difficulty_settings(self)
+	var counter := 0
+	while true:
+		print("Generator | Attempt " + str(counter))
+		counter += 1
 		create_random_setup()
 		take_turns()
-		var is_valid := clean_up_solution()
+		var is_valid := clean_up_solution(counter >= max_tries)
 		if is_valid: break
 
 func create_random_setup() -> void:
-	var num_colors := randi_range(starting_colors_bounds.x, starting_colors_bounds.y)
+	var num_colors_start := randi_range(starting_colors_bounds.x, starting_colors_bounds.y)
+	num_colors_start = mini(num_colors_start, num_colors_solution_bounds.y)
+	
 	var num_clients := randi_range(starting_clients_bounds.x, starting_clients_bounds.y)
 	
+	var num_colors_total := randi_range(num_colors_bounds.x, num_colors_bounds.y)
+	colors_possible = PuzzleColor.get_all_colors()
+	colors_possible.shuffle()
+	colors_possible = colors_possible.slice(0, num_colors_total)
+	
 	colors_start = []
-	for i in range(num_colors):
-		var c := PuzzleColor.new(PuzzleColor.get_random())
+	for i in range(num_colors_start):
+		# by alternating colors like this we ensure no puzzle solution is ever just 100% same color
+		var c := PuzzleColor.new(colors_possible[i % colors_possible.size()])
 		colors_start.append(c)
 	
 	clients = []
@@ -44,7 +60,7 @@ func create_new_client() -> PuzzleClient:
 	var rewards : Array[PuzzleColor.ColorName] = []
 	var num_rewards := randi_range(reward_bounds.x, reward_bounds.y)
 	for i in range(num_rewards):
-		rewards.append(PuzzleColor.get_random())
+		rewards.append(colors_possible.pick_random())
 	c.set_rewards(rewards)
 	clients.append(c)
 	return c
@@ -59,10 +75,13 @@ func take_turns() -> void:
 	colors = colors_start.duplicate()
 	solution = []
 	
+	var max_order_size := randi_range(max_order_size_bounds.x, max_order_size_bounds.y)
+	var rewards_are_allowed := reward_bounds.y > 0
 	var last_client : PuzzleClient
 	
 	while not is_done:
 		var current_color := colors[current_color_index]
+		if not current_color: break
 		
 		# pick a random client (that isn't done yet)
 		var open_clients := get_open_clients()
@@ -102,7 +121,7 @@ func take_turns() -> void:
 			client.finish()
 			
 			# @NOTE: by guaranteeing at least 1 reward, we will NEVER be out of colors
-			if more_colors_needed and client.count_reward() <= 0: 
+			if more_colors_needed and client.count_reward() <= 0 and rewards_are_allowed: 
 				client.add_to_reward(PuzzleColor.get_random())
 			
 			if sim_needs_to_continue:
@@ -125,19 +144,24 @@ func take_turns() -> void:
 		for i in range(last_client.count_reward()): colors.pop_back()
 		last_client.remove_reward()
 
-func clean_up_solution() -> bool:
+func clean_up_solution(force_solution := false) -> bool:
 	# remove clients that did absolutely nothing
 	for i in range(clients.size() - 1, -1, -1):
 		if clients[i].has_empty_order():
 			clients.remove_at(i)
 	
+	var open_clients_remain := get_open_clients().size() > 0
+	var colors_left_over := current_color_index < colors.size()
+	if open_clients_remain or colors_left_over: return false
+	
+	# this mode is enabled if we've been trying for a while without success; it just skips all "non-critical checks"
+	if force_solution: return true
+	
 	# check if client bounds are met
 	var too_few_clients := clients.size() < num_client_bounds.x
-	var open_clients_remain := get_open_clients().size() > 0
-	if too_few_clients or open_clients_remain: return false
+	if too_few_clients: return false
 	
 	# check if color bounds are met
-	var colors_left_over := current_color_index < colors.size()
 	var too_few_turns := current_color_index < num_colors_solution_bounds.x
 	var too_many_turns := current_color_index > num_colors_solution_bounds.y
 	if colors_left_over or too_few_turns or too_many_turns: return false

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://ioo441cokhft"]
+
+[ext_resource type="Script" uid="uid://ce8jls8tfi3c2" path="res://puzzle-framework/menu/menu.gd" id="1_8qcin"]
+[ext_resource type="PackedScene" uid="uid://lkjwr7m55dxn" path="res://puzzle-framework/menu/buttons/button.tscn" id="2_t1k4y"]
+[ext_resource type="Material" uid="uid://b4fglkkp0vwjx" path="res://puzzle-framework/menu/menu_shader_material_dots.tres" id="3_jwtfl"]
+
+[node name="Menu" type="Node2D" unique_id=1278934026 node_paths=PackedStringArray("button_container", "background", "pattern", "label")]
+script = ExtResource("1_8qcin")
+button_container = NodePath("CanvasLayer/Control/VBoxContainer")
+button_scene = ExtResource("2_t1k4y")
+background = NodePath("CanvasLayer/Control/Background")
+pattern = NodePath("CanvasLayer/Control/Background/Pattern")
+label = NodePath("CanvasLayer/Control/MarginContainer/Label")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1877935870]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1962462081]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Control" parent="CanvasLayer/Control" unique_id=1510077234]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/Control/Background" unique_id=1730599856]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.53019094, 0.95842415, 1)
+
+[node name="Pattern" type="ColorRect" parent="CanvasLayer/Control/Background" unique_id=1919379420]
+material = ExtResource("3_jwtfl")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=1328641646]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.5
+offset_top = -15.5
+offset_right = 36.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control" unique_id=1289350361]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 395.0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer" unique_id=849855891]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8352941)
+theme_override_font_sizes/font_size = 12
+text = "Rainbow Market v1.24 | Educational Puzzle Game | The Wayward Melody"

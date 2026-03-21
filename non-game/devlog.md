@@ -88,25 +88,47 @@ Then I added the basic menus, sound effects, and some tweens/animations, and we 
 
 Because it was such a tiny test game (to check the viability of puzzle games at my online educational store), I used free asset packs for the few images needed and did not add any other bells and whistles.
 
+Until the next game,
+
+Pandaqi
 
 
 
 
 
 
-@TODO:
 
-* Allow setting a more limited range of colors that it picks from. => Works towards a _campaign_ where you slowly get more difficult puzzles, instead of just the randomly generated one.
-  * The campaign just saves the SETTINGS and the SEEDS, which perfectly reconstructs the same thing for everyone? Do we NEED to save the seeds?
-  * Just give 5 play buttons with emojis (happy -> mad/focused)?
-    * INTRO = no rewards, single colors requested, just tap matching color
-    * EASY = no rewards, multiple colors requested
-    * MEDIUM = single reward
-    * HARD = multiple rewards
-    * HARDEST = large number of players, everything on
-* Make puzzles SEEDED to allow RETRY on same one
-* Give FEEDBACK when a click is wrong (as opposed to when it's ignored because system still busy)
-  * Do a little "wiggle" / "shake of the head" with all the elements of that client?
-* Show menu for game over + play next/retry
-  * Some simple animation for when the level is loaded/appears (instead of insta-appearing everything)
-* Background => make actual terrain with some variation (some trees, shrubs, all tinted appropriately of course) and such instead of flat bright color
+
+## Original Idea
+
+Random cute animals are scattered around the map (no grid or anything needed).
+
+Each animal ...
+
+* **Wants some stuff** (one or more specific colors, in a thought bubble overhead)
+* **Has a color** (and is standing in a general area of that color below their feet)
+
+Each "turn", the game gives you the next color in line. (You can see the whole row + the whole background turns that color to be obvious.)
+
+You _tap one animal_ to give it to them. If this finishes their order, the animal disappears, and _their color is added to the end of your list_!
+
+In this way, you need to be smart about the order in which you fulfill orders.
+
+COLOR-INSPIRED IDEAS: <https://minireview.io/puzzle/i-love-hue-too/games-like>
+
+
+
+## TODO
+
+* Settings?? Fullscreen?
+* TUTORIAL / SAY NAME OF COLOR
+  * Flash color shown in row
+  * Flash color shown by animal that requests it
+  * Then _only_ show a finger tapping that animal that wants it.
+  * (Only show this on EASIEST mode, and only keep it around for the first one or two steps?)
+  * => Create general library for "flash/highlight this element"? For "point finger at this thing"? For programming the sequence of tutorial steps?
+    * NAH WRITE IT HARDCODED FIRST, we can always make it generic later
+
+* Game Icon / Header
+* Webshop Page
+* Export

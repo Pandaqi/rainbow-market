@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bqutjhog68134"]
+
+[ext_resource type="Script" uid="uid://vlso22u00am3" path="res://map/background/background.gd" id="1_8r7ws"]
+[ext_resource type="Material" uid="uid://ba0au0k2poeau" path="res://puzzle-framework/menu/menu_shader_material_blobs.tres" id="2_n5q5j"]
+[ext_resource type="Texture2D" uid="uid://cu83qu18th1sa" path="res://icon.svg" id="3_1nkgi"]
+[ext_resource type="Script" uid="uid://b3t0gg43wqooy" path="res://map/background/terrain.gd" id="4_087kh"]
+[ext_resource type="PackedScene" uid="uid://dhf13gix5hqyx" path="res://map/background/terrain_sprite.tscn" id="5_oxmt2"]
+
+[node name="Background" type="Node2D" unique_id=1499580916 node_paths=PackedStringArray("terrain", "pattern")]
+script = ExtResource("1_8r7ws")
+terrain = NodePath("Terrain")
+pattern = NodePath("Pattern")
+show_pattern = true
+
+[node name="Pattern" type="Sprite2D" parent="." unique_id=560775273]
+material = ExtResource("2_n5q5j")
+position = Vector2(770, 614)
+scale = Vector2(22.046875, 14.8671875)
+texture = ExtResource("3_1nkgi")
+
+[node name="Terrain" type="Node2D" parent="." unique_id=1013930091 node_paths=PackedStringArray("terrain_container")]
+y_sort_enabled = true
+script = ExtResource("4_087kh")
+terrain_container = NodePath(".")
+terrain_scene = ExtResource("5_oxmt2")

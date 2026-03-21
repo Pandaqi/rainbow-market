@@ -1,0 +1,34 @@
+[gd_resource type="Theme" format=3 uid="uid://d0wlrrkq7diyd"]
+
+[ext_resource type="Texture2D" uid="uid://bxsumx3gh2ott" path="res://puzzle-framework/ui/sprites/button_rectangle_depth_gloss_green.png" id="1_o52c0"]
+[ext_resource type="Texture2D" uid="uid://cp25oyqil76et" path="res://puzzle-framework/ui/sprites/button_rectangle_depth_gloss.png" id="1_r0n7j"]
+[ext_resource type="FontFile" uid="uid://c3d6qeo5ggp8q" path="res://puzzle-framework/ui/fonts/LilitaOne-Regular.ttf" id="1_w18eq"]
+[ext_resource type="Texture2D" uid="uid://dsk4qlljwe5ym" path="res://puzzle-framework/ui/sprites/button_rectangle_depth_gloss_red.png" id="3_5gpu4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5gpu4"]
+texture = ExtResource("1_o52c0")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o52c0"]
+texture = ExtResource("1_r0n7j")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r38pq"]
+texture = ExtResource("3_5gpu4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[resource]
+default_font = ExtResource("1_w18eq")
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/styles/hover = SubResource("StyleBoxTexture_5gpu4")
+Button/styles/normal = SubResource("StyleBoxTexture_o52c0")
+Button/styles/pressed = SubResource("StyleBoxTexture_r38pq")
