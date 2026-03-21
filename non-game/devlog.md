@@ -86,7 +86,25 @@ I added a simple button to automatically _play_ this solution, which was a godse
 
 Then I added the basic menus, sound effects, and some tweens/animations, and we had a color-focused puzzle game! One that's absolutely playable by 4-year-olds, as all you do is tap an animal (which matches color with the background). I can even remove the "reward" entirely for the first few levels, removing the puzzle aspect but making it easier to get started.
 
-Because it was such a tiny test game (to check the viability of puzzle games at my online educational store), I used free asset packs for the few images needed and did not add any other bells and whistles.
+Because it was such a tiny test game (to check the viability of puzzle games at my online educational store), I used free asset packs for the few images needed and did not add any other bells and whistles. I didn't even see the point adding "settings" because there are ... no settings to tweak.
+
+I did decide to add a **tutorial**. (With such educational games, explaining it in two sentences to the teacher/parent, and them guiding their kid is usually the best way. But I still want to support the kid playing all on their own, or the game being playable without any reading.)
+
+It took me a while to figure this one out actually. How do you explain the idea of "tap an animal that wants the same color as the one shown" without text? In as simple a way as possible?
+
+* Any image I make is just going to be another image in a sea of images that mean nothing to the player yet. Not great.
+* So I need to actually highlight/animate the specific sprites in the puzzle. I need to actually read the puzzle solution and indicate (on the "easiest" difficulty) what the player should tap.
+* But if I add a pointing finger to both the "color shown" and the "animal to tap" ... then it's not clear _which of the two_ you should tap!
+* Then I realized I could do a _sequence_.
+  * Highlight color shown.
+  * Highlight animal that wants it.
+  * Show a single pointing finger above the animal, indicating to tap that.
+
+
+
+
+
+
 
 Until the next game,
 
@@ -120,7 +138,6 @@ COLOR-INSPIRED IDEAS: <https://minireview.io/puzzle/i-love-hue-too/games-like>
 
 ## TODO
 
-* Settings?? Fullscreen?
 * TUTORIAL / SAY NAME OF COLOR
   * Flash color shown in row
   * Flash color shown by animal that requests it
@@ -129,6 +146,9 @@ COLOR-INSPIRED IDEAS: <https://minireview.io/puzzle/i-love-hue-too/games-like>
   * => Create general library for "flash/highlight this element"? For "point finger at this thing"? For programming the sequence of tutorial steps?
     * NAH WRITE IT HARDCODED FIRST, we can always make it generic later
 
+* Main Menu (built-in for framework):
+  * Quit Button
+  * Settings Button
+
 * Game Icon / Header
-* Webshop Page
 * Export
