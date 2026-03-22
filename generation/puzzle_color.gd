@@ -24,7 +24,20 @@ static var names_to_colors : Dictionary[ColorName, Color] = {
 	ColorName.PINK: Color.PINK,
 	ColorName.CYAN: Color.CYAN,
 	ColorName.WHITE: Color.WHITE,
-	ColorName.BLACK: Color(0.25, 0.25, 0.25),
+	ColorName.BLACK: Color(0.25, 0.25, 0.25), # pure black is too dark to be practical
+}
+
+static var names_to_audio : Dictionary[ColorName, String] = {
+	ColorName.RED: "red",
+	ColorName.BLUE: "blue",
+	ColorName.GREEN: "green",
+	ColorName.YELLOW: "yellow",
+	ColorName.ORANGE: "orange",
+	ColorName.PURPLE: "purple",
+	ColorName.PINK: "pink",
+	ColorName.CYAN: "cyan",
+	ColorName.WHITE: "white",
+	ColorName.BLACK: "black",
 }
 
 var name : ColorName
@@ -48,3 +61,6 @@ static func get_random() -> ColorName:
 
 static func get_color_as_object(c:ColorName) -> Color:
 	return names_to_colors[c]
+
+static func convert_color_to_audio(c:ColorName) -> String:
+	return "res://map/colors/sounds/" + names_to_audio[c] + ".ogg"

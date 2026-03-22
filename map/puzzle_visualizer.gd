@@ -9,10 +9,16 @@ class_name PuzzleVisualizer
 @export var color_list : ColorList
 @export var clients_container : Node2D
 
+@export var narrate_colors := true
+@export var audio_color : AudioStreamPlayer
+
+@export var tutorial : Tutorial
+
 var clients : Array[VisualClient]
 var clients_all : Array[VisualClient]
 var generator : PuzzleGenerator
 var busy := false
+var num_moves_made := 0
 
 static var viewport_size := Vector2i(1280, 720)
 
@@ -20,6 +26,7 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_on_size_changed)
 	_on_size_changed()
 	camera.set_target(Rect2(Vector2.ZERO, viewport_size))
+	narrate_colors = PuzzleFramework.get_setting_value("narrate_colors")
 
 func _on_size_changed() -> void:
 	var vp := get_viewport_rect().size
@@ -97,6 +104,7 @@ func _on_client_clicked(c:VisualClient) -> void:
 		return
 	
 	busy = true
+	num_moves_made += 1
 	await c.remove_color_from_order(current_color)
 	
 	if c.is_done():
@@ -122,6 +130,10 @@ func _on_client_clicked(c:VisualClient) -> void:
 		PuzzleFramework.finish_puzzle(false)
 		return
 
+func get_current_color() -> VisualColor:
+	if color_list.is_empty(): return null
+	return color_list.get_first()
+
 func switch_to_next_color(remove_old := true) -> void:
 	if remove_old: 
 		var node := color_list.remove_first()
@@ -132,6 +144,14 @@ func switch_to_next_color(remove_old := true) -> void:
 	var new_first := color_list.get_first()
 	background.set_color(new_first)
 	new_first.play_popup_tween()
+	
+	var show_tutorial : bool = num_moves_made < 2 and PuzzleFramework.get_puzzle_difficulty_level() == PuzzleDifficulty.Difficulty.EASIEST
+	if show_tutorial:
+		tutorial.highlight_move(self)
+	
+	if narrate_colors:
+		audio_color.stream = load(PuzzleColor.convert_color_to_audio(new_first.data.get_name()))
+		audio_color.play()
 
 func remove_client(c:VisualClient) -> void:
 	clients.erase(c)

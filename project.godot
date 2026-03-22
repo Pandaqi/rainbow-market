@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="rainbow-market"
-run/main_scene="uid://b14eo1iq47tu3"
+run/main_scene="uid://ioo441cokhft"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="uid://djqljeiieesg5"
 
@@ -41,3 +41,4 @@ theme/custom="uid://d0wlrrkq7diyd"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

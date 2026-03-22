@@ -20,6 +20,10 @@ var state := State.MENU
 var puzzle_difficulty : PuzzleDifficulty
 @export var difficulties : Dictionary[PuzzleDifficulty.Difficulty, PuzzleDifficulty] = {}
 
+@export_group("Settings & Configuration")
+@export var settings : Array[PuzzleSetting] = []
+var settings_by_id : Dictionary[String, PuzzleSetting] = {}
+
 enum State
 {
 	MENU,
@@ -34,6 +38,9 @@ signal puzzle_done(player_won:bool)
 # Done in enter_tree to ensure it grabs all buttons added later
 func _enter_tree() -> void:
 	get_tree().node_added.connect(_on_node_added)
+	
+	for setting in settings:
+		settings_by_id[setting.key] = setting
 
 func _ready() -> void:
 	button_audio = AudioStreamPlayer.new()
@@ -84,6 +91,10 @@ func get_puzzle_difficulty() -> PuzzleDifficulty:
 	if not puzzle_difficulty: return difficulties[difficulties.keys()[0]]
 	return puzzle_difficulty
 
+func get_puzzle_difficulty_level() -> PuzzleDifficulty.Difficulty:
+	if not puzzle_difficulty: return PuzzleDifficulty.Difficulty.EASIEST
+	return puzzle_difficulty.difficulty
+
 func apply_difficulty_settings(obj) -> void:
 	var diff := get_puzzle_difficulty()
 	for key in diff.properties:
@@ -97,3 +108,10 @@ func apply_pitch_shift(ap:Node) -> void:
 	var base := 1.05946309436
 	var rand_num := randi_range(-2, 2)
 	ap.pitch_scale = pow(base, rand_num)
+
+func has_settings() -> bool:
+	return settings.size() > 0
+
+func get_setting_value(key:String) -> Variant:
+	if not (key in settings_by_id): return false
+	return settings_by_id[key].get_value_safe()

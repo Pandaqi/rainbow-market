@@ -12,6 +12,13 @@ texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ucmf0"]
+texture = ExtResource("3_5gpu4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o52c0"]
 texture = ExtResource("1_r0n7j")
 texture_margin_left = 8.0
@@ -30,5 +37,7 @@ texture_margin_bottom = 8.0
 default_font = ExtResource("1_w18eq")
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/styles/hover = SubResource("StyleBoxTexture_5gpu4")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_ucmf0")
 Button/styles/normal = SubResource("StyleBoxTexture_o52c0")
 Button/styles/pressed = SubResource("StyleBoxTexture_r38pq")
+Label/colors/font_color = Color(0.17063957, 0.2561905, 0.3135514, 1)

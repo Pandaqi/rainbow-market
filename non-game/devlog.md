@@ -116,7 +116,7 @@ Pandaqi
 
 
 
-
+<!---
 ## Original Idea
 
 Random cute animals are scattered around the map (no grid or anything needed).
@@ -133,22 +133,4 @@ You _tap one animal_ to give it to them. If this finishes their order, the anima
 In this way, you need to be smart about the order in which you fulfill orders.
 
 COLOR-INSPIRED IDEAS: <https://minireview.io/puzzle/i-love-hue-too/games-like>
-
-
-
-## TODO
-
-* TUTORIAL / SAY NAME OF COLOR
-  * Flash color shown in row
-  * Flash color shown by animal that requests it
-  * Then _only_ show a finger tapping that animal that wants it.
-  * (Only show this on EASIEST mode, and only keep it around for the first one or two steps?)
-  * => Create general library for "flash/highlight this element"? For "point finger at this thing"? For programming the sequence of tutorial steps?
-    * NAH WRITE IT HARDCODED FIRST, we can always make it generic later
-
-* Main Menu (built-in for framework):
-  * Quit Button
-  * Settings Button
-
-* Game Icon / Header
-* Export
+--->

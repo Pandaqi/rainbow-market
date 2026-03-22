@@ -7,10 +7,24 @@ class_name PuzzleMenu
 @export var pattern : ColorRect
 @export var label : Label
 
+@export var button_back : TextureButton
+
+@export var button_settings : TextureButton
+@export var settings : PuzzleSettings
+
 func _ready() -> void:
 	create_buttons()
 	get_viewport().size_changed.connect(_on_size_changed)
 	_on_size_changed()
+	
+	button_back.pressed.connect(_on_button_back_pressed)
+	button_settings.pressed.connect(_on_button_settings_pressed)
+	
+	if OS.get_name() == "html5":
+		button_back.hide()
+	
+	if not PuzzleFramework.has_settings():
+		button_settings.hide()
 	
 	label.set_text("{game_name} v{game_version} | {game_tagline} | {creator_credit}".format({
 		"game_name": PuzzleFramework.game_name,
@@ -24,7 +38,19 @@ func _ready() -> void:
 	if PuzzleFramework.menu_scene_custom:
 		add_child(PuzzleFramework.menu_scene_custom.instantiate())
 
-func _on_size_changed():
+func _on_button_back_pressed() -> void:
+	if settings.is_visible(): 
+		_on_button_settings_pressed()
+		return
+	get_tree().quit()
+
+func _on_button_settings_pressed() -> void:
+	if settings.is_visible(): 
+		settings.hide()
+	else: 
+		settings.show()
+
+func _on_size_changed() -> void:
 	pattern.material.set_shader_parameter("viewport_size", get_viewport_rect().size)
 
 func create_buttons() -> void:

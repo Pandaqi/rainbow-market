@@ -12,6 +12,7 @@ var data : PuzzleClient
 @export var audio_error : AudioStreamPlayer2D
 @export var audio_positive : AudioStreamPlayer2D
 @export var audio_unlock : AudioStreamPlayer2D
+@export var audio_color : AudioStreamPlayer2D
 
 signal clicked(c:VisualClient)
 
@@ -61,10 +62,13 @@ func set_from_data(c:PuzzleClient) -> void:
 func set_animal_texture(type:String) -> void:
 	client_sprite.texture = load("res://map/clients/animals/" + type + ".png")
 
-func has_color_in_order(c:VisualColor) -> bool:
+func get_matching_color(c:VisualColor) -> VisualColor:
 	for element in order.get_elements():
-		if element.matches(c): return true
-	return false
+		if element.matches(c): return element
+	return null
+
+func has_color_in_order(c:VisualColor) -> bool:
+	return get_matching_color(c) != null
 
 func remove_color_from_order(c:VisualColor) -> void:
 	PuzzleFramework.play_audio_nice(audio_positive)
